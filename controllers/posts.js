@@ -23,7 +23,7 @@ const updatePosts = async (req, res) => {
     checkPostFormatData(req.body, res);
     await Post.findByIdAndUpdate(req.params.id, req.body);
     handleSuccess(res, req.body, "更新貼文成功");
-  } catch {
+  } catch (err) {
     handleError(res, err);
   }
 };
