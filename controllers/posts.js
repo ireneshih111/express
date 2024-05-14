@@ -34,12 +34,16 @@ const deleteAllPost = async (req, res) => {
 };
 
 const deleteOnePost = async (req, res) => {
-  const data = await Post.findById(req.params.id);
-  if (data !== null) {
-    const deletePost = await Post.findByIdAndDelete(req.params.id, req.body);
-    handleSuccess(res, deletePost, `已刪除${data.name}的貼文`);
-  } else {
-    handleError(res, "找不到此筆資料,刪除失敗");
+  try {
+    const data = await Post.findById(req.params.id);
+    if (data !== null) {
+      const deletePost = await Post.findByIdAndDelete(req.params.id, req.body);
+      handleSuccess(res, deletePost, `已刪除${data.name}的貼文`);
+    } else {
+      handleError(res, "找不到此筆資料,刪除失敗");
+    }
+  } catch (err) {
+    handleError(res, err);
   }
 };
 
