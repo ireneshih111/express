@@ -10,7 +10,8 @@ const getPosts = async (req, res) => {
 
 const createPosts = async (req, res) => {
   try {
-    checkPostFormatData(req.body, res);
+    const errorMsg = checkPostFormatData(req.body, res);
+    if (errorMsg !== null) return handleError(res, errorMsg);
     const newPost = await Post.create(req.body);
     handleSuccess(res, newPost, "新增貼文成功");
   } catch (err) {
@@ -20,7 +21,8 @@ const createPosts = async (req, res) => {
 
 const updatePosts = async (req, res) => {
   try {
-    checkPostFormatData(req.body, res);
+    const errorMsg = checkPostFormatData(req.body, res);
+    if (errorMsg !== null) return handleError(res, errorMsg);
     await Post.findByIdAndUpdate(req.params.id, req.body);
     handleSuccess(res, req.body, "更新貼文成功");
   } catch (err) {
